@@ -33,7 +33,7 @@ public class CatalogueController {
 	}
 	
 	@RequestMapping(value="/all")
-	public List<Produit> getProduit() {
+	public List<Produit> getProduits() {
 		return produitRepository.findAll();
 	}
 	
@@ -50,4 +50,31 @@ public class CatalogueController {
 		
 	}
 	
+	// @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) ; On l'a utiliser si une balise ne se met pas
+	
+	// en format JSON.
+	
+	// --> getOne : Retourne un objet enrichit avec d'autres informations qui ne peut pas les 
+	
+	// serializé en format JSON, donc il faut ajouter @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}).
+	
+	// --> findOne : Retourne un objet serializé en format JSON et ferme la session.
+	
+	@RequestMapping(value="/getProduit")
+	public Produit getProduit(Long reference) {
+		return produitRepository.findOne(reference);
+		
+	}
+	
+	@RequestMapping(value="/deleteProduit")
+	public boolean deleteProduit(Long reference) {
+		 produitRepository.delete(reference);
+		return true;
+	}
+	
+	@RequestMapping(value="/updateProduit")
+	public Produit updateProduit(Produit prUpdate) {
+		 produitRepository.saveAndFlush(prUpdate);
+		return prUpdate;
+	}
 }
