@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 // Controlleur accessible via une Servlet
 // Spring MVC déploie dispatcher Servlet
+// Spring MVC on l'a utilisé comme un RestController , li ne génére pas des JSP ou des pages HTML 
+// mais il génére un résultat en format JSON
 
 @RestController
 public class CatalogueController {
