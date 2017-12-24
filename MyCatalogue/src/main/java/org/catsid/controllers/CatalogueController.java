@@ -10,6 +10,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+// Controlleur accessible via une Servlet
+// Spring MVC déploie dispatcher Servlet
+
 @RestController
 public class CatalogueController {
 	
@@ -33,8 +36,16 @@ public class CatalogueController {
 	}
 	
 	@RequestMapping(value="/produits")
-	public Page<Produit> getProduit(int page) {
+	public Page<Produit> getProduitPage(int page) {
 		return produitRepository.findAll(new PageRequest(page, 5));
 		
 	}
+	
+	// "%"+motCle+"%": c'est-à-dire quelque soit caractére avant ou aprés 
+	@RequestMapping(value="/produitsParMotCle")
+	public Page<Produit> getProduitMotCle(String motCle,int page) {
+		return produitRepository.ProduitParMotCle("%"+motCle+"%",new PageRequest(page, 5));
+		
+	}
+	
 }
