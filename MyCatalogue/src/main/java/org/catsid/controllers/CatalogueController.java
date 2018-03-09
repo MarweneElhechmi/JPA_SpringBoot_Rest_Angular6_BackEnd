@@ -2,12 +2,19 @@ package org.catsid.controllers;
 
 import java.util.List;
 
+import org.catsid.dao.PaysRepository;
 import org.catsid.dao.ProduitRepository;
+import org.catsid.entities.Pays;
 import org.catsid.entities.Produit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 // Controlleur accessible via une Servlet
@@ -16,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 // mais il génére un résultat en format JSON
 
 @RestController
+@CrossOrigin("*")
 public class CatalogueController {
 	
 	@Autowired
@@ -26,8 +34,10 @@ public class CatalogueController {
 		return "test";
 	}
 	
+								
+	
 	@RequestMapping(value="/save")
-	public Produit saveProduit(Produit pr) {
+	public Produit saveProduit(@RequestBody Produit pr) {
 		produitRepository.save(pr);
 		return pr;
 	}
@@ -45,7 +55,8 @@ public class CatalogueController {
 	
 	// "%"+motCle+"%": c'est-à-dire quelque soit caractére avant ou aprés 
 	@RequestMapping(value="/produitsParMotCle")
-	public Page<Produit> getProduitMotCle(String motCle,int page) {
+	public Page<Produit> getProduitMotCle(@RequestParam(name="motCle",defaultValue="")String motCle,
+			@RequestParam(name="page",defaultValue="0")int page) {
 		return produitRepository.ProduitParMotCle("%"+motCle+"%",new PageRequest(page, 5));
 		
 	}
@@ -60,21 +71,41 @@ public class CatalogueController {
 	
 	// --> findOne : Retourne un objet serializé en format JSON et ferme la session.
 	
-	@RequestMapping(value="/getProduit")
-	public Produit getProduit(Long reference) {
+	@RequestMapping(value="/getProduit/{reference}",method=RequestMethod.GET)
+	public Produit getProduit(@PathVariable Long reference) {
 		return produitRepository.findOne(reference);
 		
 	}
 	
-	@RequestMapping(value="/deleteProduit")
-	public boolean deleteProduit(Long reference) {
+	@RequestMapping(value="/getProduitByReference")
+	public Produit getProduitByReference(Long reference) {
+		return produitRepository.findOne(reference);
+		
+	}
+	
+	@RequestMapping(value="/deleteProduit/{reference}",method=RequestMethod.DELETE)
+	public boolean deleteProduit(@PathVariable Long reference) {
 		 produitRepository.delete(reference);
 		return true;
 	}
 	
-	@RequestMapping(value="/updateProduit")
-	public Produit updateProduit(Produit prUpdate) {
+	@RequestMapping(value="/deleteProduit")
+	public boolean deleteProduitByReference(Long reference) {
+		 produitRepository.delete(reference);
+		return true;
+	}
+	
+	@RequestMapping(value="/updateProduit/{reference}",method=RequestMethod.PUT)
+	public Produit updateProduit(@PathVariable Long reference,@RequestBody Produit prUpdate) {
+		prUpdate.setReference(reference);
 		 produitRepository.saveAndFlush(prUpdate);
 		return prUpdate;
 	}
+	
+	@RequestMapping(value="/updateProduit")
+	public Produit updateProduitByReference(@RequestBody Produit prUpdate) {
+		 produitRepository.saveAndFlush(prUpdate);
+		return prUpdate;
+	}
+	
 }
