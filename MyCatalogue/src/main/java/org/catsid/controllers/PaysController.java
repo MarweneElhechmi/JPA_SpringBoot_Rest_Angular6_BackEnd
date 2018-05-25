@@ -5,8 +5,12 @@ import java.util.List;
 import org.catsid.dao.PaysRepository;
 import org.catsid.dao.ProduitRepository;
 import org.catsid.entities.Pays;
+import org.catsid.entities.Produit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,4 +34,18 @@ return paysRepository.save(pays);
 public List<Pays> getPays() {
 return paysRepository.findAll();
 }
+
+//"%"+motCle+"%": c'est-à-dire quelque soit caractére avant ou aprés 
+	@RequestMapping(value="/paysParMotCle")
+	public Page<Pays> getPaysParMotCle(@RequestParam(name="motCle",defaultValue="")String motCle,
+			@RequestParam(name="page",defaultValue="0")int page) {
+		return paysRepository.PaysParMotCle("%"+motCle+"%",new PageRequest(page, 5));
+		
+	}
+	
+	@RequestMapping(value="/deletePays/{codePays}",method=RequestMethod.DELETE)
+	public boolean deleteProduit(@PathVariable Long codePays) {
+		paysRepository.delete(codePays);
+		return true;
+	}
 }
