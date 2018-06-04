@@ -48,4 +48,10 @@ return paysRepository.findAll();
 		paysRepository.delete(codePays);
 		return true;
 	}
+	
+	@RequestMapping(value="/paysByReference/{reference}",method=RequestMethod.GET)
+	public Pays getProduitByRef(@PathVariable Long reference) {
+		return paysRepository.PaysParId(reference);
+		
+	}
 }

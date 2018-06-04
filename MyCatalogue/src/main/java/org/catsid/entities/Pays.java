@@ -27,6 +27,16 @@ public class Pays implements Serializable{
 		super();
 	}
 
+	
+	
+	public Pays(Long codePays, String paysName, String libelle) {
+		super();
+		this.codePays = codePays;
+		this.paysName = paysName;
+		this.libelle = libelle;
+	}
+
+
 
 	public Pays(String paysName, String libelle, Collection<Produit> produits) {
 		super();

@@ -61,6 +61,12 @@ public class CatalogueController {
 		
 	}
 	
+	@RequestMapping(value="/produitsByReference/{reference}",method=RequestMethod.GET)
+	public Produit getProduitByRef(@PathVariable Long reference) {
+		return produitRepository.ProduitParId(reference);
+		
+	}
+	
 	// @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) ; On l'a utiliser si une balise ne se met pas
 	
 	// en format JSON.

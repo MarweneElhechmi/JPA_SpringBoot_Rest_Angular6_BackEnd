@@ -11,6 +11,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface ProduitRepository extends JpaRepository<Produit, Long>{
 
+	@Query("select pr from Produit pr inner join pr.pay where pr.reference =:x")
+	public Produit ProduitParId(@Param("x") Long reference);
+	
 	//Toutes les requêttes passent par dispatcherServlet qui fait appel au controlleur
 	@Query("select p from Produit p where p.designation like :x")
 	public Page<Produit> ProduitParMotCle(@Param("x") String motCle,Pageable page);

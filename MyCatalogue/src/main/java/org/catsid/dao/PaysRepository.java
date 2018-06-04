@@ -12,4 +12,7 @@ public interface PaysRepository extends JpaRepository<Pays, Long>{
 	//Toutes les requêttes passent par dispatcherServlet qui fait appel au controlleur
 		@Query("select p from Pays p where p.paysName like :x")
 		public Page<Pays> PaysParMotCle(@Param("x") String motCle,Pageable page);
+		
+		@Query("select pr.pay from Produit pr inner join pr.pay where pr.reference =:x")
+		public Pays PaysParId(@Param("x") Long reference);
 }
