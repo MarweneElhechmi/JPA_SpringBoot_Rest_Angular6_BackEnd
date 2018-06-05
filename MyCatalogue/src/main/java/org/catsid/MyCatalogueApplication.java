@@ -1,19 +1,34 @@
 package org.catsid;
 
-import org.catsid.dao.PaysRepository;
-import org.catsid.dao.ProduitRepository;
-import org.catsid.entities.Pays;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
 public class MyCatalogueApplication {
 
 	public static void main(String[] args) {
-		ApplicationContext ctx = SpringApplication.run(MyCatalogueApplication.class, args);
-		PaysRepository pa = ctx.getBean(PaysRepository.class);
+		 SpringApplication.run(MyCatalogueApplication.class, args);
 		
-		pa.save(new Pays((long) 1,"France","Nice"));
-	}
+		 /**	Ouverture du Browser	*/
+//		 System.out.println("Application started ... launching browser now");
+//		 Browse("http://localhost:4200/blank-page/1");
+	} 
+
+//	public static void Browse(String url) {
+//	    if(Desktop.isDesktopSupported()){
+//	        Desktop desktop = Desktop.getDesktop(); 
+//	        try {
+//	            desktop.browse(new URI(url));
+//	        } catch (IOException | URISyntaxException e) {
+//	            e.printStackTrace(); 
+//	        }
+//	    }else{
+//	        Runtime runtime = Runtime.getRuntime();
+//	        try {
+//	            runtime.exec("rundll32 url.dll,FileProtocolHandler " + url);
+//	        } catch (IOException e) {
+//	            e.printStackTrace();
+//	        }
+//	    }
+//	}
 }
