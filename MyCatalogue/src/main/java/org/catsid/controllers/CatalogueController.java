@@ -26,9 +26,13 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin("*")
 public class CatalogueController {
 	
-	@Autowired
+	
 	private ProduitRepository produitRepository;
 
+	public CatalogueController(ProduitRepository produitRepository) {
+		this.produitRepository=produitRepository;
+	}
+	
 	@RequestMapping(value="/test")
 	public String Test() {
 		return "test";
@@ -102,8 +106,7 @@ public class CatalogueController {
 	}
 	
 	@RequestMapping(value="/updateProduit/{reference}",method=RequestMethod.PUT)
-	public Produit updateProduit(@PathVariable Long reference,@RequestBody Produit prUpdate) {
-		prUpdate.setReference(reference);
+	public Produit updateProduit(@RequestBody Produit prUpdate) {
 		 produitRepository.saveAndFlush(prUpdate);
 		return prUpdate;
 	}
